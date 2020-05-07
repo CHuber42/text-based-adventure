@@ -6,11 +6,11 @@ namespace Adventure.Models
   public class Horror
   {
     //some attributes
-    private int Difficulty;
+    public int Difficulty { get; set; }
     public string Name;
-    public bool PocketKnife { get; set; }
+
     public bool Key { get; set; }
-    public bool FlashLight { get; set; }
+
     public bool Dead { get; set; }
     public bool Escaped { get; set; }
     public int RoomID { get; set; }
@@ -23,8 +23,6 @@ namespace Adventure.Models
       Difficulty = difficulty;
       Name = playerName;
       Key = false;
-      FlashLight = false;
-      PocketKnife = false;
       Escaped = false;
       Dead = false;
       RoomID = 0;
@@ -57,6 +55,7 @@ namespace Adventure.Models
           PuzzleRoom();
           break;
         case 5:
+          Window();
           break;
         case 6:
           break;
@@ -69,9 +68,9 @@ namespace Adventure.Models
     public void FirstRoom()
     {
       Console.WriteLine(
-            @"                You are standing in the main antechamber.
+@"                          You are standing in the main antechamber.
 
-                              1. Go in Dining Room 2. Go Upstairs");
+                           1. Go in Dining Room 2. Go Upstairs");
       int userInput = int.Parse(Console.ReadLine());
       switch (userInput)
       {
@@ -87,29 +86,35 @@ namespace Adventure.Models
     public void DiningRoom()
     {
       Console.WriteLine(
-@"                         You are standing in the Dining Room. It's spooky in here.");
+@"                   You are standing in the Dining Room. It's spooky in here.");
       if (Key == false && BathroomDoor == true)
       {
         Console.WriteLine(
-        @"                    You see a Key on the table you didn't notice before.
-                                    Would you like to take it?
-                                    
-                                      [Y]es or [N]o?");
+@"                      You see a Key on the table you didn't notice before.
+                                Would you like to take it?
+                                  
+                                    [Y]es or [N]o?");
         switch (Console.ReadLine().ToLower())
         {
           case "y":
             Key = true;
+            Console.WriteLine(
+@"               
+                                        /- -\ ______________     
+                                       | ( ) |_____   _   __|
+                                        \- -/      | | | |_
+                                                  |_| |_ _|   
+                                                      ");
             break;
           default:
             break;
         }
       }
       Console.WriteLine(
-            @"                    There are two doors in the room.
+@"                                There are two doors in the room.
             
-                                        1. Kitchen 
-                                        2. Bathroom
-                                        3. Return to Antechamber");
+                                1. Kitchen 2. Bathroom
+                                3. Return to Antechamber");
 
       switch (Console.ReadLine())
       {
@@ -132,16 +137,16 @@ namespace Adventure.Models
     public void Kitchen()
     {
       Console.WriteLine(
-              @"                      The kitchen is dark and dank.
-                          The long decayed remains of elaborate feasts fill the air
-                          with a smell so putrid, that you die instantly.
-                                              RIP");
+@"                            The kitchen is dark and dank.
+                     The long decayed remains of elaborate feasts fill the air
+                       with a smell so putrid, that you die instantly.
+                                          RIP");
       Dead = true;
     }
     public void UpstairsHall()
     {
       Console.WriteLine(
-          @"                  You are standing at the top of the stairs.
+@"                        You are standing at the top of the stairs.
                     There is a window in front of you and a door to your left and right.
                           
                       1.Try the door on the left  2.Try the door on the right
@@ -156,7 +161,7 @@ namespace Adventure.Models
           else
           {
             Console.WriteLine(
-      @"                You try to open the door, but it appears to be deadbolted shut. 
+@"                You try to open the door, but it appears to be deadbolted shut. 
                                       You might need a key.");
           }
           break;
@@ -164,7 +169,7 @@ namespace Adventure.Models
           RoomID = 4;
           break;
         case "3":
-          Window();
+          RoomID = 5;
           break;
         case "4":
           RoomID = 0;
@@ -177,9 +182,29 @@ namespace Adventure.Models
     public void Window()
     {
       Console.WriteLine(
-            @"                 You see a picture frame with a little girl in it.
-                                    Beneath the photo is simply written: 
-                                              Christie-bear");
+@"                  
+                            ==================================
+                            ||         ######    ######        ||
+                            ||       ########    ########      ||
+                            ||       #####   __   __ ####      ||
+                            ||       #####   \|  |/   ###      ||
+                            ||       ####            ####      ||
+                            ||       #####    \___/   ###      ||
+                            ||         |####       ####|       || 
+                            ||         | ______________|       ||
+                            ||         /                \      ||
+                            ||         |  Christie-bear |      ||
+                            ||         \________________/      || 
+                            ==================================               
+              
+                        You see a picture frame with a little girl in it.
+                              Beneath the photo is simply written: 
+                                        Christie-bear
+                                        
+                          Press any button to go back to the top of the stairs.      ");
+
+      RoomID = 2;
+      Console.ReadLine();
     }
     public void PuzzleRoom()
     {
@@ -187,25 +212,25 @@ namespace Adventure.Models
       {
         Ghost = true;
         Console.WriteLine(
-            @"                   You hear some eery breathing coming from up above
-                        As you look up, you feel a pair of tiny hands slip around your throat...
-                                        ~I CAN'T REMEMBER MY NAME~
-                                        ~PLEASE TELL ME MY NAME~ : ");
+@"                        You hear some eery breathing coming from up above
+                    As you look up, you feel a pair of tiny hands slip around your throat...
+                                    ~I CAN'T REMEMBER MY NAME~
+                                    ~PLEASE TELL ME MY NAME~ : ");
         switch (Console.ReadLine())
         {
           case "Christie-bear":
             Console.WriteLine(
-              @"                            The ghost softly whispers:
-                                    'Oh. Thank you for reminding me...! :Giggle:...
-                        With a smile she fades away, and you stumble back out into the hallway.");
+@"                                    The ghost softly whispers:
+                                'Oh. Thank you for reminding me...! :Giggle:...
+                   With a smile she fades away, and you stumble back out into the hallway.");
 
             RoomID = 2;
             break;
           default:
             Console.WriteLine(
-            @"            As you rack your brain for what this tiny spectre's name could possibly be, 
-                              your vision slowly fades and the last thing you hear is...
-                                                'get rekt m8'");
+@"              As you rack your brain for what this tiny spectre's name could possibly be, 
+                      your vision slowly fades and the last thing you hear is...
+                                       'get rekt m8'");
             Dead = true;
             break;
         }
@@ -213,10 +238,10 @@ namespace Adventure.Models
       else
       {
         Console.WriteLine(
-@"                      The room is filled with a child's possessions: a small bed, toys, stuffed animals.
-               Much of the floor has rotted away; a fallen-through floorboard gives you access to the Dining Room below.
+@"                The room is filled with a child's possessions: a small bed, toys, stuffed animals.
+     Much of the floor has rotted away; a fallen-through floorboard gives you access to the Dining Room below.
                            
-                               1. Jump down to the Dining Room 2. Return to the hallway");
+                   1. Jump down to the Dining Room 2. Return to the hallway");
         switch (Console.ReadLine())
         {
           case "1":
