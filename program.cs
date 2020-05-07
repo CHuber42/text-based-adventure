@@ -10,7 +10,9 @@ namespace Models
     public static void Main()
     {
       //Game initiation/intro
-      Console.WriteLine("You have stumbled upon a (clearly haunted) house.\nA voice whispers: 'tell me your name...'");
+      Console.WriteLine(
+@"                     You have stumbled upon a (clearly haunted) house.
+                         A voice whispers: 'tell me your name...'");
       Horror game = new Horror(Console.ReadLine(), 0);
 
       //Game Loop
@@ -22,12 +24,15 @@ namespace Models
       //End of Game
       if (game.Dead == true)
       {
-        Console.WriteLine("You died, sucks to be you");
+        Console.WriteLine(
+@"                            You died, sucks to be you");
         Environment.Exit(0);
       }
       else
       {
-        Console.WriteLine("You succesfully escaped! With a heavy sigh of relief, you vow never to return to this place.");
+        Console.WriteLine(
+      @"              You succesfully escaped! With a heavy sigh of relief,
+                          you vow never to return to this place.");
         Environment.Exit(0);
       }
     }

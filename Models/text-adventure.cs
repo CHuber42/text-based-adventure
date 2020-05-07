@@ -15,6 +15,7 @@ namespace Adventure.Models
     public bool Escaped { get; set; }
     public int RoomID { get; set; }
     public bool BathroomDoor { get; set; }
+    public bool Ghost { get; set; }
 
 
     public Horror(string playerName, int difficulty)
@@ -28,6 +29,7 @@ namespace Adventure.Models
       Dead = false;
       RoomID = 0;
       BathroomDoor = false;
+      Ghost = false;
     }
 
     public void RoomSwitch()
@@ -50,7 +52,9 @@ namespace Adventure.Models
         case 3:
           Kitchen();
           break;
+        //PuzzleRoom
         case 4:
+          PuzzleRoom();
           break;
         case 5:
           break;
@@ -64,7 +68,10 @@ namespace Adventure.Models
     }
     public void FirstRoom()
     {
-      Console.WriteLine("You are standing in the main antechamber.\n1. Go in Dining Room\n2. Go Upstairs");
+      Console.WriteLine(
+            @"                You are standing in the main antechamber.
+
+                              1. Go in Dining Room 2. Go Upstairs");
       int userInput = int.Parse(Console.ReadLine());
       switch (userInput)
       {
@@ -79,10 +86,15 @@ namespace Adventure.Models
 
     public void DiningRoom()
     {
-      Console.WriteLine("You are standing in the Dining Room. Spooky.");
+      Console.WriteLine(
+@"                         You are standing in the Dining Room. It's spooky in here.");
       if (Key == false && BathroomDoor == true)
       {
-        Console.WriteLine("You see a Key on the table you didn't notice before. Would you like to take it? [Y]es or [N]o?");
+        Console.WriteLine(
+        @"                    You see a Key on the table you didn't notice before.
+                                    Would you like to take it?
+                                    
+                                      [Y]es or [N]o?");
         switch (Console.ReadLine().ToLower())
         {
           case "y":
@@ -92,7 +104,12 @@ namespace Adventure.Models
             break;
         }
       }
-      Console.WriteLine("There are two doors in the room. \n1. Kitchen\n2. Bathroom\n3. Return to Antechamber");
+      Console.WriteLine(
+            @"                    There are two doors in the room.
+            
+                                        1. Kitchen 
+                                        2. Bathroom
+                                        3. Return to Antechamber");
 
       switch (Console.ReadLine())
       {
@@ -100,7 +117,8 @@ namespace Adventure.Models
           RoomID = 3;
           break;
         case "2":
-          Console.WriteLine("The door handle rattles but the door refuses to open.");
+          Console.WriteLine(
+@"                      The door handle rattles but the door refuses to open.");
           RoomID = 1;
           BathroomDoor = true;
           break;
@@ -113,20 +131,40 @@ namespace Adventure.Models
 
     public void Kitchen()
     {
-      Console.WriteLine("The kitchen is dark and dank. The long decayed remains of elaborate feasts have filled the air with a smell so putrid, that you die instantly.\n RIP");
+      Console.WriteLine(
+              @"                      The kitchen is dark and dank.
+                          The long decayed remains of elaborate feasts fill the air
+                          with a smell so putrid, that you die instantly.
+                                              RIP");
       Dead = true;
     }
     public void UpstairsHall()
     {
-      Console.WriteLine("Your are standing at the top of the stairs.\nThere is a window in front of you and a door to your left and right.");
-      Console.WriteLine("1. Try the door on the left \n2. Try the door on the right\n3. Go to the window\n4. Return to antechamber");
+      Console.WriteLine(
+          @"                  You are standing at the top of the stairs.
+                    There is a window in front of you and a door to your left and right.
+                          
+                      1.Try the door on the left  2.Try the door on the right
+                          3.Go to the window  4.Return to Antechamber");
       switch (Console.ReadLine())
       {
         case "1":
+          if (Key)
+          {
+            MagicDoor();
+          }
+          else
+          {
+            Console.WriteLine(
+      @"                You try to open the door, but it appears to be deadbolted shut. 
+                                      You might need a key.");
+          }
           break;
         case "2":
+          RoomID = 4;
           break;
         case "3":
+          Window();
           break;
         case "4":
           RoomID = 0;
@@ -136,6 +174,61 @@ namespace Adventure.Models
       }
     }
 
+    public void Window()
+    {
+      Console.WriteLine(
+            @"                 You see a picture frame with a little girl in it.
+                                    Beneath the photo is simply written: 
+                                              Christie-bear");
+    }
+    public void PuzzleRoom()
+    {
+      if (!Ghost)
+      {
+        Ghost = true;
+        Console.WriteLine(
+            @"                   You hear some eery breathing coming from up above
+                        As you look up, you feel a pair of tiny hands slip around your throat...
+                                        ~I CAN'T REMEMBER MY NAME~
+                                        ~PLEASE TELL ME MY NAME~ : ");
+        switch (Console.ReadLine())
+        {
+          case "Christie-bear":
+            Console.WriteLine(
+              @"                            The ghost softly whispers:
+                                    'Oh. Thank you for reminding me...! :Giggle:...
+                        With a smile she fades away, and you stumble back out into the hallway.");
+
+            RoomID = 2;
+            break;
+          default:
+            Console.WriteLine(
+            @"            As you rack your brain for what this tiny spectre's name could possibly be, 
+                              your vision slowly fades and the last thing you hear is...
+                                                'get rekt m8'");
+            Dead = true;
+            break;
+        }
+      }
+      else
+      {
+        Console.WriteLine(
+@"                      The room is filled with a child's possessions: a small bed, toys, stuffed animals.
+               Much of the floor has rotted away; a fallen-through floorboard gives you access to the Dining Room below.
+                           
+                               1. Jump down to the Dining Room 2. Return to the hallway");
+        switch (Console.ReadLine())
+        {
+          case "1":
+            RoomID = 1;
+            break;
+          case "2":
+            RoomID = 2;
+            break;
+        }
+      }
+
+    }
     public void MagicDoor()
     {
       Console.WriteLine("You emerge out onto the surface.");
